@@ -1,3 +1,4 @@
+from headers import *
 from constants import *
 from constants_game import *
 from visual import vector, color, sphere
@@ -8,8 +9,8 @@ class PhysicalObject(object):
     __all__ = []
 
     def __init__(self, mass, radius, pos):
-        self.mass = mass
-        self.radius = radius
+        self.mass = float(mass)
+        self.radius = float(radius)
         self.object = None
 
         if len(pos) == 1:
@@ -18,12 +19,37 @@ class PhysicalObject(object):
             self.pos = vector(pos[0], pos[1], 0)
         else:
             self.pos = vector(pos[0], pos[1], pos[2])
+
         self.vel = vector(0, 0, 0)
+
+    def print_debug(self):
+        self.print_debug_movement(newline=False)
+        print "\t\t",
+        self.print_debug_consts()
+
+    def print_debug_movement(self, newline=True):
+        text = "accln: {}, vel: {}, pos: {}".format(self.accln(), self.vel, self.pos)
+
+        if newline:
+            print(text)
+        else:
+            print(text),
+
+    def print_debug_consts(self, newline=True):
+        text = "mass: {}, radius: {}, pos: {}".format(self.mass, self.radius, self.pos)
+
+        if newline:
+            print(text)
+        else:
+            print(text),
 
     @staticmethod
     def count_objects():
         # print(len(PhysicalObject.__all__))
         return len(PhysicalObject.__all__)
+
+    def accln(self):
+        return self.get_net_force()/self.mass;
 
     @staticmethod
     def update_bodies():
