@@ -1,4 +1,5 @@
-from headers import *
+from __future__ import print_function, division
+
 from constants import *
 from constants_game import *
 from visual import vector, color, sphere
@@ -24,7 +25,7 @@ class PhysicalObject(object):
 
     def print_debug(self):
         self.print_debug_movement(newline=False)
-        print "\t\t",
+
         self.print_debug_consts()
 
     def print_debug_movement(self, newline=True):
@@ -33,7 +34,7 @@ class PhysicalObject(object):
         if newline:
             print(text)
         else:
-            print(text),
+            print(text, end='')
 
     def print_debug_consts(self, newline=True):
         text = "mass: {}, radius: {}, pos: {}".format(self.mass, self.radius, self.pos)
@@ -41,7 +42,7 @@ class PhysicalObject(object):
         if newline:
             print(text)
         else:
-            print(text),
+            print(text, end='')
 
     @staticmethod
     def count_objects():
