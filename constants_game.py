@@ -1,0 +1,10 @@
+
+# Program constants
+SHOW_VISUAL = False
+SCALE = 0.0000000004  # 1 unit = SCALE meters
+RADIUS_1 = 7.0
+DELTA_TIME = 1  # seconds
+TIME_SPEED_UP = 100
+
+FRAME_RATE = 1.0 / DELTA_TIME
+DELTA_TIME *= TIME_SPEED_UP
