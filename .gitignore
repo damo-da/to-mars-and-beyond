@@ -90,3 +90,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
+.gitignore
+.idea/
+constants.pyc
+constants_game.pyc
+headers.pyc
+physical_object.pyc
+utils.pyc
