@@ -1,5 +1,5 @@
 from __future__ import print_function, division
-
+from math import isnan
 from constants import *
 from constants_game import *
 from visual import vector, color, sphere
@@ -8,11 +8,13 @@ from utils import __
 class PhysicalObject(object):
     """Physical Objects in the solar system."""
     __all__ = []
+    __total_time = 0
 
     def __init__(self, mass, radius, pos):
         self.mass = float(mass)
         self.radius = float(radius)
         self.object = None
+        self.last_trail_at = 0
 
         if len(pos) == 1:
             self.pos = vector(pos[0], 0, 0)
@@ -25,7 +27,7 @@ class PhysicalObject(object):
 
     def print_debug(self):
         self.print_debug_movement(newline=False)
-
+        print(",\t", end='')
         self.print_debug_consts()
 
     def print_debug_movement(self, newline=True):
@@ -50,7 +52,7 @@ class PhysicalObject(object):
         return len(PhysicalObject.__all__)
 
     def accln(self):
-        return self.get_net_force()/self.mass;
+        return self.get_net_force()/self.mass
 
     @staticmethod
     def update_bodies():
@@ -69,6 +71,12 @@ class PhysicalObject(object):
             item["item"].pos = item['pos']
             item["item"].render_updates()
 
+        PhysicalObject.__total_time += DELTA_TIME
+
+    @staticmethod
+    def get_total_time():
+        return PhysicalObject.__total_time
+
     def get_net_force(self):
         net = vector(0, 0, 0)
 
@@ -80,7 +88,13 @@ class PhysicalObject(object):
                 this_force_magnitude = self.gravitational_force_magnitude_with(body)
                 this_force = this_force_magnitude * this_direction
 
+                # print("Magnitude is {}".format(this_force_magnitude))
+                # print("Direction is {}".format(this_direction))
+                # print("This force is {}".format(this_force))
                 net += this_force
+
+        if isnan(net.mag):
+            net = 0
 
         return net
 
@@ -94,14 +108,14 @@ class PhysicalObject(object):
         return (body.pos - self.pos).mag
 
     def direction_with(self, body):
-        return body.pos - self.pos
+        m_vector = (body.pos - self.pos)
+        return m_vector/m_vector.mag
 
     def get_scaled_pos(self):
         return __(self.pos[0]), __(self.pos[1]), __(self.pos[2])
 
     def register(self, color=color.orange):
         PhysicalObject.__all__.append(self)
-
 
         #initialize graphical stuffs
         if not SHOW_VISUAL: return
@@ -115,11 +129,18 @@ class PhysicalObject(object):
         if self.object is None:
             return
 
+        if abs(self.last_trail_at - PhysicalObject.get_total_time()) > TRAIL_AFTER_TIME:
+            sphere(pos=self.object.pos, radius=RADIUS_TRAIL, color=self.object.color)
+            print("Trail created")
+            self.last_trail_at = PhysicalObject.get_total_time()
+
         self.object.pos = self.get_scaled_pos()
 
 
 earth = PhysicalObject(MASS_OF_EARTH, RADIUS_OF_EARTH, (DISTANCE_BETWEEN_SUN_AND_EARTH, 0, 0))
-earth.vel = vector(0, 30556, 0)
+earth.vel = vector(0, REVOLUTION_SPEED_OF_EARTH, 0)
 
 sun = PhysicalObject(MASS_OF_SUN, RADIUS_OF_SUN, (0, 0, 0))
+
 mars = PhysicalObject(MASS_OF_MARS, RADIUS_OF_MARS, (DISTANCE_BETWEEN_SUN_AND_MARS, 0, 0))
+mars.vel = vector(0, REVOLUTION_SPEED_OF_MARS, 0)
