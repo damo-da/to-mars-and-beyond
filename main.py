@@ -7,7 +7,7 @@ from constants_game import *
 from utils import show_arrow
 from visual import color, rate
 
-from physical_object import PhysicalObject, earth, sun, mars
+from physical_object import PhysicalObject, earth, sun, mars, moon
 
 import numpy as np
 import pylab
@@ -37,6 +37,8 @@ if __name__ == "__main__":
     earth.register(color.green)
     sun.register(color.yellow)
     mars.register(color.red)
+    # moon.register(color.white)
+
 
     while True:
         PhysicalObject.update_bodies()
