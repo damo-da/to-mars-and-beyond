@@ -17,4 +17,4 @@ def show_arrow():
     if not SHOW_VISUAL:
         return
 
-    arrow(pos=(0, 60, 1), axis=(5, 0, 0), length=100, shaftwidth=10, color=color.magenta)
+    arrow(pos=(0, 60, -1), axis=(5, 0, 0), length=100, shaftwidth=2, color=color.magenta)
