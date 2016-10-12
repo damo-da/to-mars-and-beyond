@@ -5,13 +5,14 @@ from headers import *
 from constants import *
 from constants_game import *
 from utils import show_arrow
+import matplotlib.pyplot as plt
+
 from visual import color, rate
 
-from physical_object import PhysicalObject, earth, sun, mars, moon
+from physical_object import PhysicalObject, earth, sun, mars, moon, rocket, unit_mass
 
 import numpy as np
 import pylab
-
 
 def show_graphics():
     show_arrow()
@@ -38,13 +39,38 @@ if __name__ == "__main__":
     sun.register(color.yellow)
     mars.register(color.red)
     # moon.register(color.white)
+    rocket.register(color.cyan)
 
+    frame = 0
 
+    lastdiff = 1e1000
     while True:
-        PhysicalObject.update_bodies()
+        # print(PhysicalObject.get_total_time())
 
-        print_debug()
+        render = frame > MAIN_SKIPS
 
-        rate(FRAME_RATE)
+        PhysicalObject.update_bodies(render)
+        frame += 1
+
+        # print((rocket.pos - mars.pos).mag)
+        # print(render)
+        # print(FRAME_RATE)
+        # print_debug()
+        diff = (rocket.pos - mars.pos).mag
+        if diff > lastdiff:
+            print("DIff started to increase")
+            print(rocket.pos, rocket.vel)
+            print(mars.pos, mars.vel)
+            print(diff)
+            import sys;
+            sys.exit()
+        else:
+            lastdiff = diff
+
+
+        if render:
+            rate(FRAME_RATE)
+            frame = 0
 
         # break
+

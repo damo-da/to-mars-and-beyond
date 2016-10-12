@@ -5,6 +5,7 @@ from constants_game import *
 from visual import vector, color, sphere
 from utils import __
 
+
 class PhysicalObject(object):
     """Physical Objects in the solar system."""
     __all__ = []
@@ -15,6 +16,13 @@ class PhysicalObject(object):
         self.radius = float(radius)
         self.object = None
         self.last_trail_at = 0
+
+        self.trail_count = 0
+
+        self.obj_params = {
+            "radius": RADIUS_1,
+            "color": color.white
+        }
 
         if len(pos) == 1:
             self.pos = vector(pos[0], 0, 0)
@@ -55,7 +63,7 @@ class PhysicalObject(object):
         return self.get_net_force()/self.mass
 
     @staticmethod
-    def update_bodies():
+    def update_bodies(render_updates=True):
         updates = []
         for item in PhysicalObject.__all__:
             net_force = item.get_net_force()
@@ -69,7 +77,8 @@ class PhysicalObject(object):
         for item in updates:
             item["item"].vel = item['vel']
             item["item"].pos = item['pos']
-            item["item"].render_updates()
+            if render_updates:
+                item["item"].render_updates()
 
         PhysicalObject.__total_time += DELTA_TIME
 
@@ -123,18 +132,39 @@ class PhysicalObject(object):
         scaled_pos = self.get_scaled_pos()
 
         # print("Scaled pos is {}".format(scaled_pos))
-        self.object = sphere(pos=scaled_pos, radius=RADIUS_1, color=color)
+        self.object = sphere(pos=scaled_pos, radius=self.obj_params['radius'], color=color)
 
     def render_updates(self):
         if self.object is None:
             return
 
         if abs(self.last_trail_at - PhysicalObject.get_total_time()) > TRAIL_AFTER_TIME:
+            # if(self.trail_count >= NUM_TRAILS)
             sphere(pos=self.object.pos, radius=RADIUS_TRAIL, color=self.object.color)
-            print("Trail created")
+            # print("Trail created")
             self.last_trail_at = PhysicalObject.get_total_time()
 
         self.object.pos = self.get_scaled_pos()
+
+
+class Rocket(PhysicalObject):
+    def __init__(self, mass, pos):
+        super(Rocket, self).__init__(mass, 0.1, pos)
+
+        self.propulsions =[]
+
+    def get_net_force(self):
+        force = super(Rocket, self).get_net_force()
+
+        cur_time = PhysicalObject.get_total_time()
+        for propulsion in self.propulsions:
+            if propulsion['from'] < cur_time < propulsion['from'] + propulsion['duration']:
+                force += propulsion['force']
+                print("Propulsion of mag {0:.1f} added. cur vel {1:.1e}".format(propulsion['force'].mag, self.vel.mag))
+
+
+        return force
+
 
 
 earth = PhysicalObject(MASS_OF_EARTH, RADIUS_OF_EARTH, (DISTANCE_BETWEEN_SUN_AND_EARTH, 0, 0))
@@ -147,3 +177,22 @@ mars.vel = vector(0, REVOLUTION_SPEED_OF_MARS, 0)
 
 moon = PhysicalObject(MASS_OF_MOON, RADIUS_OF_MOON, (DISTANCE_BETWEEN_EARTH_AND_MOON + DISTANCE_BETWEEN_SUN_AND_EARTH, 0, 0))
 moon.vel = vector(0, REVOLUTION_SPEED_OF_MOON + REVOLUTION_SPEED_OF_EARTH, 0)
+
+rocket = Rocket(1,  (DISTANCE_BETWEEN_SUN_AND_EARTH, -10e7, 0))
+rocket.vel = vector(6300, REVOLUTION_SPEED_OF_EARTH , 0)
+rocket.propulsions = [
+    {"force": vector(5, 1), "from":10, "duration": 2500},
+    {"force": vector(-1.6, -2), "from":2776900, "duration":5000},
+]
+
+
+unit_mass = PhysicalObject(1, 1, (0, 0, 0))
+unit_mass.vel = vector(0, 0, 0)
+
+moon.obj_params['radius'] = RADIUS_1 * 0.1
+earth.obj_params['radius'] = RADIUS_1 * 0.5
+mars.obj_params['radius'] = RADIUS_1 * 0.5
+rocket.obj_params['radius'] = RADIUS_1 * 0.5
+
+# moon.object.radius = RADIUS_1 / 0.2
+# earth.object.radius = RADIUS_1 / 0.2
