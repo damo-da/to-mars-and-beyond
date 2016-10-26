@@ -7,6 +7,7 @@ from visual import vector, dot
 from math import cos, pi, sin, tan, acos
 from constants import MASS_OF_MARS, RADIUS_OF_MARS, G
 from matplotlib import pyplot as plt
+from utils import get_total_energy, add_energy
 
 from sys import stderr
 
@@ -80,7 +81,8 @@ frame = 0
 color = "black"
 
 while True:
-    f_net = - G * MASS_OF_MARS * mass_of_rocket * rocket_pos/ rocket_pos.mag**3
+    f_gravity = - G * MASS_OF_MARS * mass_of_rocket * rocket_pos/ rocket_pos.mag**3
+    f_propulsion = vector()
 
     if not zoomed and time > 6500:
         val =  RADIUS_OF_MARS / (ZOOM * 17)
@@ -109,7 +111,7 @@ while True:
                 raise SystemError
 
             force = propulsion['magnitude'] * direction
-            f_net += force
+            f_propulsion += force
         else:
             if not notified and time > propulsion['from']:
                 print("PRopulsion stopped")
@@ -124,6 +126,7 @@ while True:
 
     if rocket_pos.mag < RADIUS_OF_MARS:
         print("Rocket landed on ground with velocity: {0:.0f}".format(rocket_vel.mag))
+        print("Total energy used: {}".format(get_total_energy()))
         import sys
         sys.exit()
 
@@ -131,6 +134,10 @@ while True:
         print("Warning, rocket going up", file=stderr)
 
     last_height = rocket_pos.mag - RADIUS_OF_MARS
+
+    f_net = f_gravity + f_propulsion
+
+    add_energy(f_net, rocket_vel, dt)
 
     rocket_vel += (f_net / mass_of_rocket) * dt
 
