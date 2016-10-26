@@ -154,16 +154,19 @@ class Rocket(PhysicalObject):
         self.propulsions =[]
 
     def get_net_force(self):
-        force = super(Rocket, self).get_net_force()
+        g_force = super(Rocket, self).get_net_force()
 
+        return g_force + self.get_net_propulsion()
+
+    def get_net_propulsion(self):
         cur_time = PhysicalObject.get_total_time()
         for propulsion in self.propulsions:
             if propulsion['from'] < cur_time < propulsion['from'] + propulsion['duration']:
-                force += propulsion['force']
                 print("Propulsion of mag {0:.1f} added. cur vel {1:.1e}".format(propulsion['force'].mag, self.vel.mag))
+                return propulsion['force']
 
 
-        return force
+        return vector()
 
 
 

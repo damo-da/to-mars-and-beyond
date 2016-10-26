@@ -4,12 +4,12 @@ from  __future__ import print_function, division
 from headers import *
 from constants import *
 from constants_game import *
-from utils import show_arrow
+from utils import show_arrow, add_energy, get_total_energy
 import matplotlib.pyplot as plt
 
 from visual import color, rate
 
-from physical_object import PhysicalObject, earth, sun, mars, moon, rocket, unit_mass
+from physical_object import PhysicalObject, earth, sun, mars, moon, rocket, unit_mass, DELTA_TIME as dt
 
 import numpy as np
 import pylab
@@ -50,6 +50,8 @@ if __name__ == "__main__":
         render = frame > MAIN_SKIPS
 
         PhysicalObject.update_bodies(render)
+        add_energy(rocket.get_net_propulsion(), rocket.vel, dt)
+
         frame += 1
 
         # print((rocket.pos - mars.pos).mag)
@@ -61,8 +63,7 @@ if __name__ == "__main__":
             print("DIff started to increase")
             print(rocket.pos, rocket.vel)
             print(mars.pos, mars.vel)
-            print(diff)
-            print(PhysicalObject.get_total_time())
+            print("distance from mars: {}, total energy: {}, total time: {}".format(diff, get_total_energy(), PhysicalObject.get_total_time()))
             import sys;
             sys.exit()
         else:
