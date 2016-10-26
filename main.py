@@ -62,6 +62,7 @@ if __name__ == "__main__":
             print(rocket.pos, rocket.vel)
             print(mars.pos, mars.vel)
             print(diff)
+            print(PhysicalObject.get_total_time())
             import sys;
             sys.exit()
         else:

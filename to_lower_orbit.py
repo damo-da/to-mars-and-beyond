@@ -6,7 +6,8 @@ from constants import RADIUS_OF_EARTH, MASS_OF_EARTH, G, GROUND_SPEED_AT_EARTH
 from visual import vector, dot as dot_product
 from matplotlib import pyplot as plt
 import sys
-from to_lower_orbit_result import result as simulation_input
+from utils import add_energy, get_total_energy
+
 
 FRAME_SKIPS = 800
 dt = 0.1
@@ -122,11 +123,12 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
     max_height = r_vec.mag
 
     while True:
-        f_net = r_vec * (- G * MASS_OF_EARTH * mass / r_vec.mag ** 3)
+        f_gravity = r_vec * (- G * MASS_OF_EARTH * mass / r_vec.mag ** 3)
 
+        f_propulsion = vector()
         if propeller_on:
             # direction_diff = 0
-            f_net += rocket_thrusts
+            f_propulsion += rocket_thrusts
 
         if apogee_active:
             base_dir = v_vec/v_vec.mag
@@ -135,7 +137,7 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
 
             # print("Apogee force: {}".format(apogee_force))
             #
-            f_net += apogee_force
+            f_propulsion += apogee_force
 
         if capuche_active:
             base_dir = v_vec / v_vec.mag
@@ -143,13 +145,17 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
             capuche_thrust_dir = capuche_thrusts / capuche_thrusts.mag
             capuche_force = capuche_thrusts.mag * (base_dir + capuche_thrust_dir)
 
-            f_net += base_dir * capuche_force.mag
+            f_propulsion += base_dir * capuche_force.mag
 
         if propeller_on and time > propeller_until:
             print("Turning propellers off at t = {:.1F}, h= {:.1F}".format(time, r_vec.mag - RADIUS_OF_EARTH))
             propeller_on = False
             continue
         current_frame += 1
+
+        f_net = f_propulsion + f_gravity
+
+        add_energy(f_propulsion, v_vec, dt)
 
         apply_force(f_net)
 
@@ -222,34 +228,14 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
 
         # print ("loop complete")
 
+        print("ENERGY per kg: {}".format(get_total_energy()))
+
         if r_vec.mag < RADIUS_OF_EARTH:
             print_err("Warning: rocket inside earth's surface")
             if return_state:
                 return [False, cost_sum/iters]
 
             return False
-
-
-def use_simulation_input():
-    global rocket_thrusts, propeller_until
-
-    for s_input in simulation_input:
-        i = s_input[0]
-        j = s_input[1]
-        t = s_input[2]
-
-        rocket_thrusts = vector(i, j)
-        propeller_until = t
-
-        result = simulate(exit_time=400000000)
-        if result == False:
-            print("Fail at {}".format((i, j, t)))
-        else:
-            print("PAss at {}".format((i,j,t)))
-            exit()
-
-
-    print("Complete")
 
 
 def simulate_everything():
