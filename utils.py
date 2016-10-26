@@ -18,3 +18,16 @@ def show_arrow():
         return
 
     arrow(pos=(0, 60, -1), axis=(5, 0, 0), length=100, shaftwidth=2, color=color.magenta)
+
+
+__energy = 0
+
+
+def add_energy(force, v_vec, dt):
+    global __energy
+    __energy += force.mag * v_vec.mag * dt
+
+
+def get_total_energy():
+    global __energy
+    return __energy
