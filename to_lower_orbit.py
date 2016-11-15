@@ -15,10 +15,13 @@ mass = 1
 GRAPH = True
 ZOOM = 0.5
 
+time_to_exit = 20000
+
 # perigee: the lowest altitude
 # apogee: the hightest altitude
 
 colors = ["red","blue","aqua","green", "brown", "pink"]
+
 
 def print_err(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -222,6 +225,14 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
             plt.pause(10)
             print(apogee_active)
             print(propeller_on)
+
+        if time > time_to_exit:
+            print("It's time to leave")
+            with open("energy-used.tmp", "w") as f:
+                f.write(str(get_total_energy())+"\n")
+
+            raw_input("Press any key to exit")
+            break
 
         # print(v_vec.mag, r_vec.mag)
         # print("a: {},   v: {},   r: {},   t:{},   rocket_thrust: {}".format(accln, v_vec, r_vec, time, "on" if propeller_on else "off"))
