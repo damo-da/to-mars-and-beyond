@@ -14,8 +14,11 @@ from physical_object import PhysicalObject, earth, sun, mars, moon, rocket, unit
 import numpy as np
 import pylab
 
+
 def show_graphics():
-    show_arrow()
+    # show_arrow()
+    pass
+
 
 def print_debug():
     print("Earth: ", end='')
@@ -64,8 +67,11 @@ if __name__ == "__main__":
             print(rocket.pos, rocket.vel)
             print(mars.pos, mars.vel)
             print("distance from mars: {}, total energy: {}, total time: {}".format(diff, get_total_energy(), PhysicalObject.get_total_time()))
-            import sys;
-            sys.exit()
+
+            with open("energy-used.tmp", "a") as f:
+                f.write(str(get_total_energy())+"\n")
+
+            break
         else:
             lastdiff = diff
 
@@ -76,3 +82,4 @@ if __name__ == "__main__":
 
         # break
 
+    print("Rocket reached mars")
