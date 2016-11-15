@@ -127,8 +127,10 @@ while True:
     if rocket_pos.mag < RADIUS_OF_MARS:
         print("Rocket landed on ground with velocity: {0:.0f}".format(rocket_vel.mag))
         print("Total energy used: {}".format(get_total_energy()))
-        import sys
-        sys.exit()
+        with open("energy-used.tmp", "a") as f:
+            f.write(str(get_total_energy()) + "\n")
+        raw_input()
+        exit(0)
 
     if rocket_pos.mag - RADIUS_OF_MARS > last_height:
         print("Warning, rocket going up", file=stderr)
