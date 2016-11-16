@@ -15,7 +15,7 @@ The solution has been divided into three parts: the flight to earth's lower orbi
 It takes into account the following things:
 
 1. Gravity from sun, earth and mars
-2. Rocket's thrust in 2 
+2. Rocket's thrust in 2-dimensions
 
 However, to keep the project simple and limited to basic physics knowledge, a lot of assumptions have been made, notably the following:
 
