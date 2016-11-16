@@ -230,6 +230,7 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
             print("It's time to leave")
             with open("energy-used.tmp", "w") as f:
                 f.write(str(get_total_energy())+"\n")
+            print("time={}, speed={}, r.mag={}".format(time, v_vec.mag, r_vec.mag))
 
             raw_input("Press any key to exit")
             break
