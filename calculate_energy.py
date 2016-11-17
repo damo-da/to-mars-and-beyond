@@ -25,5 +25,5 @@ total_energy = first_energy_total + second_energy_total + third_energy_total
 print("Total energy for a payload of {0}kg: {1:1.2e}Joules".format(final_payload_mass, total_energy))
 print("Total fuel carried: {}".format(fuel_mass))
 
-print("Energy provided per kg by fuel: {0:.2e}".format(total_energy/fuel_mass))
+print("Energy provided per kg of fuel: {0:.2e}".format(total_energy/fuel_mass))
 

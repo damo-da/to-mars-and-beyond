@@ -50,18 +50,10 @@ last_perigee = 10e10  # initialized with a large value
 propulsions_done = []
 
 propulsions = [
-    # {"type": ABSOLUTE, "magnitude": 10.0, "from":0, "duration": 7000, "color": "red"},
     {"type": VELOCITY_RELATED, "magnitude": -2, "from": 0, "duration": 2000, "color": "black"},
-    # {"type": ABSOLUTE, "magnitude": -2.0, "from":800000, "duration": 1000, "color": "green"},
-    # {"type": VELOCITY_RELATED, "magnitude": -1, "from": 400000, "duration": 3000, "color": "aqua"},
     {"type": HORIZONTAL, "magnitude": 0.4, "from": 501000, "duration": 800, "color": "red"},
     {"type": VELOCITY_RELATED, "magnitude": -1, "from": 540000, "duration": 1000, "color": "green"},
-    # {"type": VELOCITY_RELATED, "magnitude": -0.3, "from": 9200, "duration": 600, "color": "black"},
-    # {"type": VELOCITY_RELATED, "magnitude": -3.7, "from": 9100, "duration": 150, "color": "blue"},
-    # {"type": VELOCITY_RELATED, "magnitude": -0.3, "from": 600000, "duration": 3000, "color": "gray"},
-    # {"type": ABSOLUTE, "magnitude": -0.7, "from": 601000, "duration": 5000000000, "color": "pink"},
     {"type": HORIZONTAL, "magnitude": 2, "from": 400000, "duration": 50, "color": "skyblue"},
-
     {"type": HORIZONTAL, "magnitude": -1.5, "from": 620000, "duration": 2000, "color": "pink"},
     {"type": ABSOLUTE, "magnitude": -2.5, "from": 620500, "duration": 400000, "color": "red"},
     {"type": ABSOLUTE, "magnitude": -1.8, "from": 622000, "duration": 10000, "color": "blue"},

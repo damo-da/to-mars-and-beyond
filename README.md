@@ -42,12 +42,12 @@ speed of rotation of earth= 2 * π * radius of earth / 24 hours
                           ~ 460 m/s 
 ```
 2. The rocket is assumed to have an initial speed of `(0, speed_of_rotation_of_eath)`.
-3. The rocket is propelled by an initial 2-dimensional force(`a`) and continuded to do so until it reach
+3. The rocket is propelled by an initial 2-dimensional force and continuded to do so until it reach
 es a certain time. Then, the force of perigee is acted on the rocket. After it tends to reach apogee, a
 new force is applied on the rocket. After applying this force, the rocket seemingly looks to be in a sta
 ble, circular orbit.
 
-> Note: When a body is in orbit, the highest point it reaches is called the apogee, and the lowest point is called the perigee. More on apogee and perigee [here](https://en.wikipedia.org/wiki/Apsis).
+> Note: When a body is in an elliptical orbit, the highest point it reaches is called the apogee, and the lowest point is called the perigee. More on apogee and perigee [here](https://en.wikipedia.org/wiki/Apsis).
 
 ### Interplanetary Flight
 ![Screenshot](screenshots/interplanetary.png)
@@ -58,11 +58,15 @@ The Sun is the yellow sphere in the center. The Earth is the green one, the Mars
 > The presence of sun is considered in this part.
 
 #### Setup
-* The Earth, Sun and Mars are all aligned on a straight line. This is to reduce all sorts of complications. However, this is not the best configuration there can be. 
-* Earth and the Mars are given an initial speed using [fact sheets](http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). 
+* The Earth, and the Sun are all aligned on a straight, horizontal line. 
+* The rocket is placed on the same line as well, but 
+* The rocket's position and velocity are adjusted according to the results from the previous experiment.
+* The rocket is propelled until it reaches a distance from sun equal to Mars's orbit.
+* The position of Mars is adjusted close to the point when the rocket reaches the red planet's orbit.
+* Earth and the Mars are given an initial speed using [Earth's fact sheet](http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) and [Mars's fact sheet](http://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html). 
 
 #### Theory
-It is assumed that the sun's effect is negligible until Earth's lower orbit. After leaving the Earth's orbit, this assumption is no longer considererd and all the gravitational pull are considered. For all of the objects(Earth, Mars, the Sun and the rocket), gravitational pull from all bodies are considered and applied simultaneously. As an example, the rocket is pulled by the sun but the same pull is applicable to the sun by the rocket. 
+It is assumed that the sun's effect is negligible until Earth's lower orbit. After leaving the Earth's orbit, this assumption is no longer considered and all the gravitational pull are considered. For all of the objects(Earth, Mars, the Sun and the rocket), gravitational pull from all bodies are considered and applied simultaneously. As an example, the rocket is pulled by the sun but the same pull is applicable to the sun by the rocket. 
 
 > If just Earth and Sun are placed, the Earth forms a nearly-circualar orbit.
   
@@ -85,6 +89,17 @@ The `from` and `duration` values are in seconds, whereas the `force` is in Newto
 
 ### Flight to Mars's surface
 ![Screenshot](screenshots/to_mars_ground.png)
-
+#### Setup
+* The data from previous experiments are used.
+* The rocket's position and velocity are mathematiclaly translated such that both the position and velocity of Mars are on the origin.
+* The rocket is applied various forces in order to make it come in a stable elliptical orbit.
+* For certain time, at perigee, the rocket is pushed back by a force in opposite direection of it's velicity.
+* Forces in multiple directions are applied to the rocket.
+  * horizontal: In direction perpendicular to the line which points to the center of Mars.
+  * velocity_related: In direction opposite to the center of Mars.
+  * absolute: in direction to the center of Mars.
+ * The rocket is landed under a v < 1 `m/s` under the assumption that the ground speed of 241 `m/s`.
+ 
+ 
 ### Calculation of total energy and energy cost
 ![Screenshot](screenshots/energy_calculator.png)
