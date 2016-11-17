@@ -61,12 +61,15 @@ if __name__ == "__main__":
         # print(render)
         # print(FRAME_RATE)
         # print_debug()
-        diff = (rocket.pos - mars.pos).mag
-        if diff > lastdiff:
-            print("DIff started to increase")
+        print(abs((DISTANCE_BETWEEN_SUN_AND_MARS-RADIUS_OF_MARS) - rocket.pos.mag), PhysicalObject.get_total_time())
+        diff = abs(rocket.pos.mag - DISTANCE_BETWEEN_SUN_AND_MARS-RADIUS_OF_MARS)
+        if diff > lastdiff and PhysicalObject.get_total_time() > 8000000:
+            print("Difference in distance started to increase")
             print(rocket.pos, rocket.vel)
             print(mars.pos, mars.vel)
+            print(mars.pos.diff_angle(rocket.pos))
             print("distance from mars: {}, total energy: {}, total time: {}".format(diff, get_total_energy(), PhysicalObject.get_total_time()))
+            print("DISTANCE FROM MARS orbit: {}".format(diff))
 
             with open("energy-used.tmp", "a") as f:
                 f.write(str(get_total_energy())+"\n")
