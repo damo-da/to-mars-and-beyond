@@ -86,20 +86,21 @@ The `from` and `duration` values are in seconds, whereas the `force` is in Newto
 > Standard SI units are used in used in the entire project.
 
 
+
 ### Flight to Mars's surface
 ![Screenshot](screenshots/to_mars_ground.png)
 #### Setup
 * The data from previous experiments are used.
 * The rocket's position and velocity are mathematiclaly translated such that both the position and velocity of Mars are on the origin.
 * The rocket is applied various forces in order to make it come in a stable elliptical orbit.
-* For certain time, at perigee, the rocket is pushed back by a force in opposite direection of it's velicity.
+* For certain time, at perigee, the rocket is pushed back by a force in opposite direction of it's velocity.
 * Forces in multiple directions are applied to the rocket.
   * horizontal: In direction perpendicular to the line which points to the center of Mars.
   * velocity_related: In direction to the rocket's velocity.(Using negative magnitude leads to a direction opposite to the rocket's velocity)
   * absolute: in direction to the center of Mars.
 * The rocket is landed under a v < 1 `m/s` under the assumption that the ground speed of 241 `m/s`.
 
-Note: all the forces have been discovered using hit and trial
+Note: all the forces in this part have been discovered using hit and trial
  
  
 ### Calculation of total energy and energy cost

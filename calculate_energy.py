@@ -22,8 +22,8 @@ third_energy_total = initial_payload_mass * mass_loss_on_lower_orbit_ratio * mas
 
 total_energy = first_energy_total + second_energy_total + third_energy_total
 
-print("Total energy for a payload of {0}kg: {1:1.2e}Joules".format(final_payload_mass, total_energy))
-print("Total fuel carried: {}".format(fuel_mass))
+print("Total energy for a payload of {0} kg: {1:1.1e} Joules".format(final_payload_mass, total_energy))
+print("Total fuel carried: {} kg".format(fuel_mass))
 
-print("Energy provided per kg of fuel: {0:.2e}".format(total_energy/fuel_mass))
+print("Energy provided per kg of fuel: {0:.2e} Joules".format(total_energy/fuel_mass))
 

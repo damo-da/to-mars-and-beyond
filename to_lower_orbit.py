@@ -236,11 +236,11 @@ def simulate(exit_time=400, exit_after_success=True, return_state=False):
             break
 
         # print(v_vec.mag, r_vec.mag)
-        # print("a: {},   v: {},   r: {},   t:{},   rocket_thrust: {}".format(accln, v_vec, r_vec, time, "on" if propeller_on else "off"))
+        print("v: {0},   r: {1},   t:{2},  energy/kg: {3:1.1e}, rocket_thrust: {4}".format(v_vec, r_vec, time, get_total_energy(), "on" if propeller_on else "off"))
 
         # print ("loop complete")
 
-        print("ENERGY per kg: {}".format(get_total_energy()))
+        # print("ENERGY per kg: {}".format(get_total_energy()))
 
         if r_vec.mag < RADIUS_OF_EARTH:
             print_err("Warning: rocket inside earth's surface")

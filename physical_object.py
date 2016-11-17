@@ -37,7 +37,7 @@ class PhysicalObject(object):
     def print_debug(self):
         self.print_debug_movement(newline=False)
         print(",\t", end='')
-        self.print_debug_consts()
+        self.print_debug_consts(False)
 
     def print_debug_movement(self, newline=True):
         text = "accln: {}, vel: {}, pos: {}".format(self.accln(), self.vel, self.pos)

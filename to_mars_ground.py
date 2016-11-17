@@ -166,8 +166,8 @@ while True:
 
     if time > TIME_SKIP:
         print(
-            "t= {0}, v={1:.0f}, h={2:.2f}, theta={3:.2f}, g={4:.2f}".format(time, rocket_vel.mag-241, rocket_pos.mag - RADIUS_OF_MARS,
-                                                                 theta, f_gravity.mag))
+            "t= {0}, v={1:.0f}, h={2:.2f}, theta={3:.2f}, g={4:.2f}, E={5:1.1e}".format(time, rocket_vel.mag-241, rocket_pos.mag - RADIUS_OF_MARS,
+                                                                 theta, f_gravity.mag, get_total_energy()))
 
     if rocket_pos.mag < RADIUS_OF_MARS:
         print("Rocket landed on ground with velocity: {0:.0f}".format(rocket_vel.mag))
@@ -188,7 +188,7 @@ while True:
     if reached_orbit:
         f_net += f_lander
 
-    add_energy(f_net, rocket_vel, dt)
+    add_energy(f_net-f_gravity, rocket_vel, dt)
 
     rocket_vel += (f_net / mass_of_rocket) * dt
 

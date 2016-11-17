@@ -21,14 +21,11 @@ def show_graphics():
 
 
 def print_debug():
-    print("Earth: ", end='')
-    earth.print_debug()
 
-    print("Sun: ", end='')
-    sun.print_debug()
-
-    print("Total time: {0:.2E}".format(PhysicalObject.get_total_time()))
-    print("Distance : {0:.2E}".format(earth.distance_with(sun)))
+    print("time: {0:.2E}  ".format(PhysicalObject.get_total_time()), end='')
+    print("distance to mars: {0:.2E}\t".format(mars.distance_with(rocket)), end='')
+    print("distance to earth: {0:.2E}   ".format(earth.distance_with(rocket)), end='')
+    print("energy used: {0:.2E}\t".format(get_total_energy()), end='')
 
     # print("Net force on earth: {0:.2E} ".format(earth.get_net_force().mag))
     # print("Accln: {0:.2E} ".format(earth.accln().mag))
@@ -60,8 +57,8 @@ if __name__ == "__main__":
         # print((rocket.pos - mars.pos).mag)
         # print(render)
         # print(FRAME_RATE)
-        # print_debug()
-        print(abs((DISTANCE_BETWEEN_SUN_AND_MARS-RADIUS_OF_MARS) - rocket.pos.mag), PhysicalObject.get_total_time())
+        print_debug()
+        # print(abs((DISTANCE_BETWEEN_SUN_AND_MARS-RADIUS_OF_MARS) - rocket.pos.mag), PhysicalObject.get_total_time())
         diff = abs(rocket.pos.mag - DISTANCE_BETWEEN_SUN_AND_MARS-RADIUS_OF_MARS)
         if diff > lastdiff and PhysicalObject.get_total_time() > 8000000:
             print("Difference in distance started to increase")
