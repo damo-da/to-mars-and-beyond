@@ -4,6 +4,7 @@ from constants import *
 from constants_game import *
 from visual import vector, color, sphere
 from utils import __
+from math import cos, sin, pi
 
 
 class PhysicalObject(object):
@@ -169,23 +170,28 @@ class Rocket(PhysicalObject):
         return vector()
 
 
-
 earth = PhysicalObject(MASS_OF_EARTH, RADIUS_OF_EARTH, (DISTANCE_BETWEEN_SUN_AND_EARTH, 0, 0))
 earth.vel = vector(0, REVOLUTION_SPEED_OF_EARTH, 0)
 
 sun = PhysicalObject(MASS_OF_SUN, RADIUS_OF_SUN, (0, 0, 0))
 
-mars = PhysicalObject(MASS_OF_MARS, RADIUS_OF_MARS, (DISTANCE_BETWEEN_SUN_AND_MARS, 0, 0))
-mars.vel = vector(0, REVOLUTION_SPEED_OF_MARS, 0)
+MARS_THETA = 1.380646465529
+
+_mars_pos = (DISTANCE_BETWEEN_SUN_AND_MARS*cos(MARS_THETA), DISTANCE_BETWEEN_SUN_AND_MARS*sin(MARS_THETA), 0)
+_mars_vel = vector(-REVOLUTION_SPEED_OF_MARS * sin(MARS_THETA), REVOLUTION_SPEED_OF_MARS * cos(MARS_THETA), 0)
+mars = PhysicalObject(MASS_OF_MARS, RADIUS_OF_MARS, _mars_pos)
+mars.vel = _mars_vel
+
 
 moon = PhysicalObject(MASS_OF_MOON, RADIUS_OF_MOON, (DISTANCE_BETWEEN_EARTH_AND_MOON + DISTANCE_BETWEEN_SUN_AND_EARTH, 0, 0))
 moon.vel = vector(0, REVOLUTION_SPEED_OF_MOON + REVOLUTION_SPEED_OF_EARTH, 0)
 
-rocket = Rocket(1,  (DISTANCE_BETWEEN_SUN_AND_EARTH, -10e7, 0))
-rocket.vel = vector(6300, REVOLUTION_SPEED_OF_EARTH , 0)
+rocket = Rocket(1,  (DISTANCE_BETWEEN_SUN_AND_EARTH+9999136.2739, 0, 0))
+rocket.vel = vector(0, REVOLUTION_SPEED_OF_EARTH + 6319.9, 0)
 rocket.propulsions = [
-    {"force": vector(5, 1), "from":10, "duration": 2500},
-    {"force": vector(-1.6, -2), "from":2776900, "duration":5000},
+    {"force": vector(2, 2), "from":10, "duration": 1800},
+    {"force": vector(-0.5, -2), "from":16000000, "duration": 1600},
+    # {"force": vector(-1, -0.5), "from":2776900, "duration":5000},
 ]
 
 
